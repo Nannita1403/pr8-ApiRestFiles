@@ -1,86 +1,86 @@
 const { privateDecrypt } = require("crypto");
-const Platform = require("../models/platforms");
 const { deleteFile } = require("../../utils/deletefiles");
+const Singer = require("../models/singers");
 
-const getPlatforms = async (req,res,next) => {
+const getSingers = async (req,res,next) => {
     try {
-        const platforms = await Platform.find(/*{ verified: true }*/).populate("games");
-        return res.status(200).json(platforms);
+        const singers = await Singer.find(/*{ verified: true }*/).populate("songs");
+        return res.status(200).json(singers);
       } catch (error) {
         return res.status(400).json("Error en la busqueda");
       }
     };
 
-const getPlatformById = async (req,res,next) => {
+const getSingerById = async (req,res,next) => {
     try {
         const {id}= req.params;
-        const platform = await Platform.findById(id).populate("games");
-        return res.status(200).json(platform);
+        const singer = await Singer.findById(id).populate("songs");
+        return res.status(200).json(singer);
      } catch (error) {
         return res.status(400).json("Error en la busqueda por ID");
      }
 };
 
-const postPlatform = async (req, res, next) => {
+const postSinger = async (req, res, next) => {
   try {
-    const newPlatform = new Platform(req.body);
+    const newSinger = new Singer(req.body);
     if (req.file) {
-      newPlatform.imagen = req.file.path;
+      newSinger.imagen = req.file.path;
     }
-    const platformSaved = await newPlatform.save();
+    const singerSaved = await newSinger.save();
 
-    return res.status(201).json(platformSaved);
+    return res.status(201).json(singerSaved);
   } catch (error) {
     return res.status(400).json("Error en la carga del Plataform");
   }
 };
 
-const getPlatformByAdmin = async (req, res, next) => {
+const getSingerByAdmin = async (req, res, next) => {
     try {
-      const platforms = await Platform.find({ verified: false });
-      return res.status(200).json(platforms);
+      const singers = await Singer.find({ verified: false });
+      return res.status(200).json(singers);
     } catch (error) {
       return res.status(400).json("Error en la busqueda por Admin");
     }
   };
 
-const updatePlatform = async (req, res, next) => {
+const updateSinger = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const oldPlatform = await Platform.findById(id);
-      const newPlatform = new Platform(req.body);
-      newPlatform._id = id;
-      const games = req.body.games || [];
-      newPlatform.games =[...oldPlatform.games, ...games]
+      const oldSinger = await Singer.findById(id);
+      const newSinger = new Singer(req.body);
+      newSinger._id = id;
+      const songs = req.body.songs || [];
+      newSinger.songs =[...oldSinger.songs, ...songs]
 
       if (req.file) {
-        newPlatform.imagen = req.file.path;
-        deleteFile(oldPlatform.imagen);
+        newSinger.imagen = req.file.path;
+        deleteFile(oldSinger.imagen);
       }
-      const platformUpdated = await Platform.findByIdAndUpdate(id, newPlatform, {
+      const singerUpdated = await Singer.findByIdAndUpdate(id, newSinger, {
         new: true,
       });
-      return res.status(200).json(platformUpdated);
+      return res.status(200).json(singerUpdated);
     } catch (error) {
       return res.status(400).json("Error en el Update  Plataform");
     }
   };
 
-  const deletePlatform = async (req, res, next) => {
+  const deleteSinger = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const platformDeleted = await Platform.findByIdAndDelete(id);
-      deleteFile(platformDeleted.imagen);
-      return res.status(200).json(platformDeleted);
+      const singerDeleted = await Singer.findByIdAndDelete(id);
+      deleteFile(singerDeleted.imagen);
+      return res.status(200).json(singerDeleted);
     } catch (error) {
       return res.status(400).json("Error en la eliminación");
     }
   };
         module.exports = {
-            getPlatforms,
-            getPlatformById, 
-            getPlatformByAdmin,
-            postPlatform,
-            updatePlatform,
-            deletePlatform
+            getSingers,
+            getSingerById, 
+            getSingerByAdmin,
+            postSinger,
+            updateSinger,
+            deleteSinger
         }
