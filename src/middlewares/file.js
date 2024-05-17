@@ -5,7 +5,7 @@ const {CloudinaryStorage} = require ("multer-storage-cloudinary");
 const storage = new CloudinaryStorage ({
     cloudinary: cloudinary,
     params: {
-        folder: "Songs", //carpeta apra todo (tanto juegos como plataformas)
+        folder: "Music", //carpeta apra todo (tanto juegos como plataformas)
         allowesFormatd: ["jpg", "png", "jpeg", "gif", "webp"]
     }
 });

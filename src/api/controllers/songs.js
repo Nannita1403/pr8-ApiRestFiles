@@ -31,21 +31,11 @@ const getSongByCategory = async (req,res,next) => {
      }
 };
 
-const getSongsByPrice = async (req, res, next) => {
-    try {
-      const { precio } = req.params;
-      const songs = await Song.find({ Price: { $lte: precio } });
-      return res.status(200).json(songs);
-    } catch (error) {
-      return res.status(400).json("Error en la solicitud de busueda por Precio");
-    }
-  };
-
 const postSong = async (req, res, next) => {
   try {
     const newSong = new Song(req.body);
     if(req.file) {
-      newSong.imagenDisco = req.file.path; //aca verifico si hay un nuevo archivo por el path (ruta a cloudinary)
+      newSong.imagen = req.file.path; //aca verifico si hay un nuevo archivo por el path (ruta a cloudinary)
     }
     if (req.user.rol === "admin") {
       newSong.verified = true;
@@ -76,9 +66,9 @@ const updateSong = async (req, res, next) => {
       newSong._id = id;
       
       if (req.file) {
-        newSong.imagenDisco = req.file.path; //aca lo que hago es sustituir la imagen en BBDD pero cargo una nueva en Cloud
+        newSong.imagen = req.file.path; //aca lo que hago es sustituir la imagen en BBDD pero cargo una nueva en Cloud
         const oldSong = await Song.findById(id);
-        deleteFile(oldSong.imagenDisco);
+        deleteFile(oldSong.imagen);
       }
 
       const songUpdated = await Song.findByIdAndUpdate(id, newSong, {
@@ -94,7 +84,7 @@ const updateSong = async (req, res, next) => {
     try {
       const { id } = req.params;
       const songDeleted = await Song.findByIdAndDelete(id);
-      deleteFile(songDeleted.imagenDisco);
+      deleteFile(songDeleted.imagen);
       return res.status(200).json(songDeleted);
     } catch (error) {
       return res.status(400).json("Error en la eliminación");
