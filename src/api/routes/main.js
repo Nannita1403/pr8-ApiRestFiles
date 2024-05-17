@@ -1,14 +1,14 @@
 // Nos traemos todas las rutas de index.js
 
 const usersRoutes = require("./users");
-const songsRouter = require("./songs");
-const singerRouter = require("./singers");
+const gamesRouter = require("./games");
+const plataformRouter = require("./Platforms");
 
 const mainRouter = require ("express").Router();
 
 mainRouter.use("/users", usersRoutes);
-mainRouter.use("/singers", singerRouter);
-mainRouter.use("/songs", songsRouter);
+mainRouter.use("/platform", plataformRouter);
+mainRouter.use("/games", gamesRouter);
 
 
 module.exports = mainRouter;
