@@ -1,0 +1,24 @@
+nannimagi
+EvjuuB1TdGrkQTiY
+mongodb+srv://nannimagi:<password>@cluster0.r7hboj9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+
+platforms
+PlayStation
+PC
+XBox
+Wii
+INFO:
+Imagen
+Nombre
+Juego []
+
+
+Juegos (arrys de juegos para diferentes platadformas)
+INFO:
+Nombre
+Imagen
+Precio
+Categoria
+
+Usuario:
