@@ -94,7 +94,6 @@ const updateSong = async (req, res, next) => {
             getSongs,
             getSongById, 
             getSongByCategory,
-            getSongsByPrice,
             getSongByAdmin,
             postSong,
             updateSong,
