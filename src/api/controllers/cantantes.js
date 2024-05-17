@@ -50,7 +50,8 @@ const updatePlatform = async (req, res, next) => {
       const oldPlatform = await Platform.findById(id);
       const newPlatform = new Platform(req.body);
       newPlatform._id = id;
-      newPlatform.games =[...oldPlatform.games, ...req.body.games]
+      const games = req.body.games || [];
+      newPlatform.games =[...oldPlatform.games, ...games]
 
       if (req.file) {
         newPlatform.imagen = req.file.path;
@@ -61,7 +62,7 @@ const updatePlatform = async (req, res, next) => {
       });
       return res.status(200).json(platformUpdated);
     } catch (error) {
-      return res.status(400).json("Error en el Update del Plataform");
+      return res.status(400).json("Error en el Update  Plataform");
     }
   };
 
