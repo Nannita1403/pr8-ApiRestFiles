@@ -1,5 +1,6 @@
 const { privateDecrypt } = require("crypto");
 const Platform = require("../models/platforms");
+const { deleteFile } = require("../../utils/deletefiles");
 
 const getPlatforms = async (req,res,next) => {
     try {
@@ -23,12 +24,9 @@ const getPlatformById = async (req,res,next) => {
 const postPlatform = async (req, res, next) => {
   try {
     const newPlatform = new Platform(req.body);
-/*
-    if (req.user.rol === "admin") {
-      newPlataform.verified = true;
-    } else {
-      newPlataform.verified = false;
-    }*/
+    if (req.file) {
+      newPlatform.imagen = req.file.path;
+    }
     const platformSaved = await newPlatform.save();
 
     return res.status(201).json(platformSaved);
@@ -51,9 +49,13 @@ const updatePlatform = async (req, res, next) => {
       const { id } = req.params;
       const oldPlatform = await Platform.findById(id);
       const newPlatform = new Platform(req.body);
-      
       newPlatform._id = id;
       newPlatform.games =[...oldPlatform.games, ...req.body.games]
+
+      if (req.file) {
+        newPlatform.imagen = req.file.path;
+        deleteFile(oldPlatform.imagen);
+      }
       const platformUpdated = await Platform.findByIdAndUpdate(id, newPlatform, {
         new: true,
       });
@@ -67,6 +69,7 @@ const updatePlatform = async (req, res, next) => {
     try {
       const { id } = req.params;
       const platformDeleted = await Platform.findByIdAndDelete(id);
+      deleteFile(platformDeleted.imagen);
       return res.status(200).json(platformDeleted);
     } catch (error) {
       return res.status(400).json("Error en la eliminación");

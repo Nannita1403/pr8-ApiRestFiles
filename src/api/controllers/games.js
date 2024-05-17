@@ -1,5 +1,6 @@
 const { privateDecrypt } = require("crypto");
 const Game = require("../models/games");
+const { deleteFile } = require("../../utils/deletefiles");
 
 const getGames = async (req,res,next) => {
     try {
@@ -43,7 +44,9 @@ const getGamesByPrice = async (req, res, next) => {
 const postGame = async (req, res, next) => {
   try {
     const newGame = new Game(req.body);
-
+    if(req.file) {
+      newGame.imagen = req.file.path; //aca verifico si hay un nuevo archivo por el path (ruta a cloudinary)
+    }
     if (req.user.rol === "admin") {
       newGame.verified = true;
     } else {
@@ -71,6 +74,13 @@ const updateGame = async (req, res, next) => {
       const { id } = req.params;
       const newGame = new Game(req.body);
       newGame._id = id;
+      
+      if (req.file) {
+        newGame.imagen = req.file.path; //aca lo que hago es sustituir la imagen en BBDD pero cargo una nueva en Cloud
+        const oldGame = await Game.findById(id);
+        deleteFile(oldGame.imagen);
+      }
+
       const gameUpdated = await Game.findByIdAndUpdate(id, newGame, {
         new: true,
       });
@@ -84,6 +94,7 @@ const updateGame = async (req, res, next) => {
     try {
       const { id } = req.params;
       const gameDeleted = await Game.findByIdAndDelete(id);
+      deleteFile(gameDeleted.imagen);
       return res.status(200).json(gameDeleted);
     } catch (error) {
       return res.status(400).json("Error en la eliminación");
