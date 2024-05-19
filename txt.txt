@@ -2,6 +2,9 @@ nannimagi
 EvjuuB1TdGrkQTiY
 mongodb+srv://nannimagi:<password>@cluster0.r7hboj9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
+YLvldDaVPF5GTefJ
+DB_URL = mongodb+srv://nannimagi:YLvldDaVPF5GTefJ@cluster0.w6mqsvk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
 
 platforms
 PlayStation
