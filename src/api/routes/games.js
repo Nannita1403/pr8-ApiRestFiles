@@ -9,8 +9,8 @@ gamesRouter.get("/:id", getGameById);
 gamesRouter.get("/Price/:precio", getGamesByPrice);
 gamesRouter.get("/category/:category", getGameByCategory);
 gamesRouter.get("/", getGames);
-gamesRouter.post("/",(isAuth), upload.single("games"), postGame);
-gamesRouter.put("/:id",(isAdmin), upload.single("games"), updateGame);
+gamesRouter.post("/",(isAuth), upload.single("imagen"), postGame);
+gamesRouter.put("/:id",(isAdmin), upload.single("imagen"), updateGame);
 gamesRouter.delete("/:id",(isAdmin), deleteGame);
 
 
