@@ -20,7 +20,7 @@ const registerUser = async (req,res,next) => {
         }
     
        const userSaved = await newUser.save();
-       return res.status(201).json(userSaved);
+       return res.status(201).json({mensaje:"Usuario Creado", userSaved});
     } catch (error) {
         return res.status(400).json ("Error en el registro")
     }
@@ -57,7 +57,7 @@ const deleteUser = async (req, res, next) => {
     try {
       const { id } = req.params;
       const userDeleted = await User.findByIdAndDelete(id);
-      return res.status(200).json(userDeleted);
+      return res.status(200).json({ mensaje:"Usuario Eliminado", userDeleted });
     } catch (error) {
       return res.status(400).json("Error en la eliminación");
     }

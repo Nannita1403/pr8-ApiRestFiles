@@ -4,7 +4,7 @@ const Platform = require("../models/platforms");
 
 const getPlatforms = async (req,res,next) => {
     try {
-        const platforms = await Platform.find(/*{ verified: true }*/).populate("games");
+        const platforms = await Platform.find().populate("games");
         return res.status(200).json(platforms);
       } catch (error) {
         return res.status(400).json("Error en la busqueda");
@@ -35,15 +35,6 @@ const postPlatform = async (req, res, next) => {
   }
 };
 
-const getPlatformByAdmin = async (req, res, next) => {
-    try {
-      const platforms = await Platform.find({ verified: false });
-      return res.status(200).json(platforms);
-    } catch (error) {
-      return res.status(400).json("Error en la busqueda por Admin");
-    }
-  };
-
 const updatePlatform = async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -60,9 +51,9 @@ const updatePlatform = async (req, res, next) => {
       const platformUpdated = await Platform.findByIdAndUpdate(id, newPlatform, {
         new: true,
       });
-      return res.status(200).json(platformUpdated);
+      return res.status(200).json({mensaje:"Plataforma Actualizada", platformUpdated});
     } catch (error) {
-      return res.status(400).json("Error en el Update  Plataform");
+      return res.status(400).json(error);
     }
   };
 
@@ -71,15 +62,14 @@ const updatePlatform = async (req, res, next) => {
       const { id } = req.params;
       const platformDeleted = await Platform.findByIdAndDelete(id);
       deleteFile(platformDeleted.imagen);
-      return res.status(200).json(platformDeleted);
+      return res.status(200).json({mensaje:"Plataforma Eliminada", platformDeleted});
     } catch (error) {
       return res.status(400).json("Error en la eliminación");
     }
   };
         module.exports = {
             getPlatforms,
-            getPlatformById, 
-            getPlatformByAdmin,
+            getPlatformById,
             postPlatform,
             updatePlatform,
             deletePlatform

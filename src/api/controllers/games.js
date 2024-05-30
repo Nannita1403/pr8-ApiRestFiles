@@ -44,7 +44,7 @@ const postGame = async (req, res, next) => {
     }
     const gameSaved = await newGame.save();
 
-    return res.status(201).json(gameSaved);
+    return res.status(201).json({mensaje:"Juego Publicado", gameSaved});
   } catch (error) {
     return res.status(400).json("Error en la carga del Game");
   }
@@ -65,7 +65,7 @@ const getGameByAdmin = async (req, res, next) => {
       const games = await Game.find({ Price: { $lte: precio } });
       return res.status(200).json(games);
     } catch (error) {
-      return res.status(400).json("Error en la solicitud de busueda por Precio");
+      return res.status(400).json("Error en la solicitud de busqueda por Precio");
     }
   };
 
@@ -84,9 +84,9 @@ const updateGame = async (req, res, next) => {
       const gameUpdated = await Game.findByIdAndUpdate(id, newGame, {
         new: true,
       });
-      return res.status(200).json(gameUpdated);
+      return res.status(200).json({mensaje:"Juego Modificado",gameUpdated});
     } catch (error) {
-      return res.status(400).json("Error en el Update del Game");
+      return res.status(400).json(error);
     }
   };
 
@@ -95,7 +95,7 @@ const updateGame = async (req, res, next) => {
       const { id } = req.params;
       const gameDeleted = await Game.findByIdAndDelete(id);
       deleteFile(gameDeleted.imagen);
-      return res.status(200).json(gameDeleted);
+      return res.status(200).json({mensaje:"Juego Eliminado", gameDeleted});
     } catch (error) {
       return res.status(400).json("Error en la eliminación");
     }

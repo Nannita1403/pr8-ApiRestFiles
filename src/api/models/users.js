@@ -6,8 +6,8 @@ const userSchema = new mongoose.Schema({
     password: {type:String, require: true},
     rol: { type:String, require: true,
         enum: ["admin", "user"], default:"user"},
-    imagen: {type: String, require: true },
-    email: {type: String, require: true }
+    imagen: {type: String, require: false },
+    email: {type: String, require: false }
 }, {
     timestamps: true,
     collection: "users"
