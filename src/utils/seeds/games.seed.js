@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const games = require("../data/games");
-const Game = require("../api/models/games");
+const games = require("../../data/games");
+const Game = require("../../api/models/games");
 
     mongoose
     .connect(process.env.DB_URL)

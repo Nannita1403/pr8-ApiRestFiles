@@ -5,7 +5,7 @@ const usersRoutes = require("express").Router();
 usersRoutes.get("/",(isAdmin), getUsers);
 usersRoutes.post("/register", registerUser);
 usersRoutes.post("/login", loginUser);
-usersRoutes.get("/:id",(isAdmin), deleteUser);
+usersRoutes.delete("/:id",(isAdmin), deleteUser);
 
 
 module.exports = usersRoutes;
